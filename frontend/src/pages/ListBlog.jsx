@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 import Cards from '../components/Cards'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-
+import BASE_URl from '../config'
 
 const ListBlog = () => {
     const navigate=useNavigate();
@@ -17,30 +17,38 @@ const ListBlog = () => {
     content: 'This is a dummy blog used for testing or placeholder purposes.',
   }
  ]);
+ const [Loading,setLoading]=useState(true);
   const fetchCurrentUser = async () => {
     try {
-      const res = await axios.get('/api/auth/current', { withCredentials: true });
+      const res = await axios.get(`${BASE_URl}/api/auth`, { withCredentials: true });
       setCurrentUser(res.data);
     } catch (err) {
       console.error('Failed to fetch current user', err);
+      setCurrentUser(null);
     }
   };
 useEffect(() => {
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get('/api/blogs'); // no ID, get all blogs
-   setBlogs([...res.data])
+      const res = await axios.get(`${BASE_URl}/api/blogs `); // no ID, get all blogs
+   setBlogs([...res.data.content])
+
     } catch (err) {
       console.log('Failed to fetch blogs', err);
     }
+    await fetchCurrentUser();
+    setLoading(false);
   };
   fetchBlogs();
-  fetchCurrentUser();
 }, []);
+   console.log(blogs);
+if(Loading){
+  return <div>Loading...</div>
+}
 
   return (
     
- <Layout>
+ <Layout currentUser={currentUser}>
    <Box display="flex" flexWrap="wrap" gap={2}>
     {blogs.map((blog)=>(
         <Cards

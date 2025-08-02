@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography, Paper, Link } from "@mui/material";
 import {  useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import BASE_URl from "../config";
 const Signup = () => {
     const [name,setName]=useState('');
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
     const Navigate=useNavigate();
+  
+  
 
-    const handleClick=()=>{
-        localStorage.setItem('user',JSON.stringify({name,email,password}));
-        alert('Account created,You can now log in successfully');
-        Navigate('/login');
-    }
+    const handleClick=async(e)=>{
+      e.preventDefault();
+      try{
+
+        const res=await axios.post(`${BASE_URl}/api/auth/register`,{
+         name,email,password
+        });
+        if(res.status===200){
+        
+          Navigate('/login'); 
+        }
+      }catch(err){
+        console.log('Signed in failed',err);
+      }
+  }
   return (
     <Box
+    component="form"
       display="flex"
       justifyContent="center"
       alignItems="center"

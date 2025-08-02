@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Paper, Typography } from '@mui/material'
+import BASE_URl from '../config'
 const DetailBlog = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const DetailBlog = () => {
           const fetchblog = async () => {
 
                 try {
-                    const res = await axios.get(`/api/blogs/${id}`);
+                    const res = await axios.get(`${BASE_URl}/api/blogs/${id}`);
                     setBlog(
                         {
                             title: res.data.title,

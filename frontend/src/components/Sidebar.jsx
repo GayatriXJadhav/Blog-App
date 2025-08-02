@@ -1,5 +1,5 @@
 // src/components/Sidebar.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Drawer,
   Toolbar,
@@ -14,16 +14,18 @@ import {
   // Fade,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 // import Login from "../pages/Login";
 // import Signup from "../pages/Signup";
 
 const drawerWidth = 240;
 
-const Sidebar = () => {
+const Sidebar = ({currentUser}) => {
   const navigate = useNavigate();
-  const user = localStorage.getItem("user");
+ 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -31,14 +33,15 @@ const Sidebar = () => {
     setAnchorEl(null);
   };
   const navItems = [
-  { name: 'Listings', path: '/' },
-  { name: 'Login', path: '/Login' },
-  { name: 'Signup', path: '/Signup' },
-  {name:'CreateBlog', path:'/createBlog'}
-];
-const handleNavigation=(path)=>{
-  navigate(path);
-}
+    { name: 'Listings', path: '/' },
+    { name: 'Login', path: '/Login' },
+    { name: 'Signup', path: '/Signup' },
+    { name: 'CreateBlog', path: '/createBlog' }
+  ];
+  const handleNavigation = (path) => {
+    navigate(path);
+  }
+
   return (
     <>
       <Drawer
@@ -54,58 +57,75 @@ const handleNavigation=(path)=>{
         }}
       >
         <Toolbar />
-        <Box sx={{ overflow: "auto",
+        <Box sx={{
+          overflow: "auto",
           // display:"flex",
           // flexDirection:"column",
           // alignItems:"left"
-         }}>
+        }}>
           <List>
 
-          
-            {navItems.map((text) => (
-              <ListItem
-              
-               key={text} disablePadding>
-                <ListItemButton 
-               key={text.name}
-                onClick={() => handleNavigation(text.path)}>
-                  <ListItemText primary={text.name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-            </List>
-                  
-          
-            <Button
-              sx={{
-                color: "black",
-              }}
-              id="fade-button"
-              aria-controls={open ? "fade-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
-            >
-              Menu
-            </Button>
 
-          <Menu
-            id="fade-menu"
-            slotProps={{
-              list: {
-                "aria-labelledby": "fade-button",
-              },
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            // TransitionComponent={Fade}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
-     
+            {navItems
+              .filter((item) => {
+                if (currentUser && (item.name === 'Login' || item.name === 'Signup')) {
+                  return false;
+                }
+                if(!currentUser && (item.name==='CreateBlog')){
+                  return false;
+                }
+                return true;
+              })
+              .map((text) => (
+                <ListItem
+
+                  key={text} disablePadding>
+                  <ListItemButton
+                    key={text.name}
+                    onClick={() => handleNavigation(text.path)}>
+                    <ListItemText primary={text.name} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+          </List>
+
+          {
+            currentUser && (
+              <>
+
+                <Button
+                  sx={{
+                    color: "black",
+                  }}
+                  id="fade-button"
+                  aria-controls={open ? "fade-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  Menu
+                </Button>
+
+                <Menu
+                  id="fade-menu"
+                  slotProps={{
+                    list: {
+                      "aria-labelledby": "fade-button",
+                    },
+                  }}
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                // TransitionComponent={Fade}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+              </>
+            )
+
+          }
         </Box>
       </Drawer>
     </>

@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import Form from '../components/Form'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import BASE_URl from '../config'
 const EditBlog = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const EditBlog = () => {
 
             const fetchblog = async () => {
                 try {
-                    const res = await axios.get(`/api/blogs/${id}`);
+                    const res = await axios.get(`${BASE_URl}/api/blogs/${id}`);
                     setInitD(
                         {
                             title: res.title,
@@ -30,7 +31,7 @@ const EditBlog = () => {
     }, [id,passedBlog])
     const handleUpdate = async (updatedData) => {
         try {
-            await axios.put(`api/blogs/${id}`, updatedData);
+            await axios.put(`${BASE_URl}/api/blogs/${id}`, updatedData);
             navigate('/');
 
         }

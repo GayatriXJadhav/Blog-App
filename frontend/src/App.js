@@ -7,22 +7,24 @@ import ListBlog from "./pages/ListBlog";
 import EditBlog from "./pages/EditBlog";
 
 import { Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./components/Layout";
+// import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Routes>
  
       <Route path="/" element={<ListBlog />} />
-
-
-
       <Route path="/Signup" element={<Signup />} />
       <Route path="/Login" element={<Login />} />
 
+
+
+
       <Route path="/createBlog" element={
-       
-        <CreateBlog />
+       <ProtectedRoute>
+
+         <CreateBlog />
+       </ProtectedRoute>
         } />
 
           <Route path="*" element={<Navigate to="/" />} />

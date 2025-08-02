@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 
 // const drawerWidth = 240;
 
-const Layout = ({ children }) => {
+const Layout = ({ children,currentUser}) => {
   return (
     <Box sx={{ display: "flex",
      
@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
       <Header />
 
       {/* Left Drawer */}
-      <Sidebar />
+      <Sidebar currentUser={currentUser}/>
 
       {/* Main Content Area */}
       <Box
@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
           p: 3,
           minHeight: "100vh",
           //   ml: `${drawerWidth}px`,#ff7b7b
-          bgcolor: '#ff7b7bff'
+          bgcolor: '#cc9292ff'
         }}
       >
         {/* Push content below the AppBar */}
