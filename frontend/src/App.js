@@ -12,12 +12,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout/>}/>
-      <Route path="/ListBlog" element={<ListBlog />} />
+ 
+      <Route path="/" element={<ListBlog />} />
 
 
 
-      <Route path="/" element={<Signup />} />
+      <Route path="/Signup" element={<Signup />} />
       <Route path="/Login" element={<Login />} />
 
       <Route path="/createBlog" element={

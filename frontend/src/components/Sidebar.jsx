@@ -30,17 +30,15 @@ const Sidebar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClickEvents = ({ text }) => {
-    if (text === "Create Blog") {
-      if (user) {
-        navigate("/createBlog");
-      } else {
-        navigate("/signup");
-      }
-    } else {
-      navigate("/ListBlog");
-    }
-  };
+  const navItems = [
+  { name: 'Listings', path: '/' },
+  { name: 'Login', path: '/Login' },
+  { name: 'Signup', path: '/Signup' },
+  {name:'CreateBlog', path:'/createBlog'}
+];
+const handleNavigation=(path)=>{
+  navigate(path);
+}
   return (
     <>
       <Drawer
@@ -57,37 +55,26 @@ const Sidebar = () => {
       >
         <Toolbar />
         <Box sx={{ overflow: "auto",
-          display:"flex",
-          flexDirection:"column"
+          // display:"flex",
+          // flexDirection:"column",
+          // alignItems:"left"
          }}>
           <List>
+
           
-            {["Listings", "Create Blog"].map((text) => (
+            {navItems.map((text) => (
               <ListItem
               
                key={text} disablePadding>
                 <ListItemButton 
-               
-                onClick={() => handleClickEvents(text)}>
-                  <ListItemText primary={text} />
+               key={text.name}
+                onClick={() => handleNavigation(text.path)}>
+                  <ListItemText primary={text.name} />
                 </ListItemButton>
               </ListItem>
             ))}
             </List>
-                  <Button
-            sx={{
-              color: "black",
-            }}
-          >
-            Signup
-          </Button>
-          <Button
-            sx={{
-              color: "black",
-            }}
-          >
-            Login
-          </Button>
+                  
           
             <Button
               sx={{
