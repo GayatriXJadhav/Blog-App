@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import BASE_URl from "../config";
 
 const Profile = () => {
     const navigate=useNavigate();
@@ -39,7 +40,7 @@ const Profile = () => {
   const getBlogs = async () => {
     try {
         const token=localStorage.getItem('token');
-      const res = await axios.get("/api/blogs/user",
+      const res = await axios.get(`${BASE_URl}/api/blogs/user`,
         {
             headers:{
                 'Authorization':token || ''
