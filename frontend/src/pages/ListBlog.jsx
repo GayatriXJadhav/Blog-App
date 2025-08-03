@@ -26,10 +26,10 @@ const ListBlog = () => {
     currentPage: 0,
     totalPages: 0,
     totalEl: 0,
-    pageSize: 5
+    pageSize:6
   })
 
-  const fetchBlogs = async (page = 0, size = 5) => {
+  const fetchBlogs = async (page = 0, size = 6) => {
     try {
       setLoading(true);
       const res = await axios.get(`${BASE_URl}/api/blogs`
