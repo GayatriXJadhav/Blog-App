@@ -30,6 +30,7 @@
 | Edit Blog           | ❌             | ❌             | ✅          |
 | Delete Blog         | ❌             | ❌             | ✅          |
 
+![Pipeline](./images/Pipeline.png)
 ### Profile Management
 ```mermaid
 graph TD
@@ -40,3 +41,5 @@ graph TD
     D --> F[Delete Blog]
 ![Landing Page Preview](./images/LandingPage.png) 
 ![After_Login_Preview](./images/)
+
+
