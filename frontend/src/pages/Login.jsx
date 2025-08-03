@@ -22,9 +22,7 @@ const Login = () => {
        
         navigate('/')
       }
-      else{
-        navigate('/signup')
-      }
+     
 
     } catch (err) {
       console.log('Error to login', err);
