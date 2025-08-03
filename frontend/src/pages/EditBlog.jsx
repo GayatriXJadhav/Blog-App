@@ -17,7 +17,9 @@ const EditBlog = () => {
                 try {
                     const token=localStorage.getItem('token');
                     const res = await axios.get(`${BASE_URl}/api/blogs/${id}`,{
-                        'Authorization':token || ''
+                       headers:{
+                         'Authorization':token || ''
+                       }
                     });
                     setInitD(
                         {
@@ -34,7 +36,12 @@ const EditBlog = () => {
     }, [id,passedBlog])
     const handleUpdate = async (updatedData) => {
         try {
-            await axios.put(`${BASE_URl}/api/blogs/${id}`, updatedData);
+              const token=localStorage.getItem('token');
+            await axios.put(`${BASE_URl}/api/blogs/${id}`, updatedData,{
+                 headers:{
+                         'Authorization':token || ''
+                       }
+            });
             navigate('/');
 
         }
