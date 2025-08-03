@@ -16,6 +16,9 @@ const ListBlog = () => {
       id: 'dummy-123',
       title: 'Dummy Blog Title',
       content: 'This is a dummy blog used for testing or placeholder purposes.',
+      user:{
+        name:'Dummy'
+      }
     }
   ]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +38,7 @@ const ListBlog = () => {
 
             page,
             size,
-            sort: 'title,asc'
+            sort: 'dateCreated,desc'
           }
         }); // no ID, get all blogs
       console.log(res);
@@ -82,6 +85,7 @@ const ListBlog = () => {
             key={blog.id}
             title={blog.title}
             content={blog.content}
+            authorname={blog.user.name}
             onView={() => navigate(`/view/${blog.id}`, {
               state: blog
 

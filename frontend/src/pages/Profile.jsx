@@ -42,7 +42,7 @@ const Profile = () => {
       const res = await axios.get("/api/blogs/user",
         {
             headers:{
-                'Authorization':token
+                'Authorization':token || ''
             }
         }
       );

@@ -7,13 +7,9 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const Cards = ({ title, content, onView, onEdit,blogType }) => {
+const Cards = ({ title, content, authorname,onView, onEdit,blogType }) => {
  
- const type=(blogType)=>{
-  if(blogType==='List'){
-    return false;
-  }
- }
+
   return (
     <Card
       sx={{
@@ -41,6 +37,7 @@ const Cards = ({ title, content, onView, onEdit,blogType }) => {
         <Typography variant="body2" color="text.secondary" fontWeight={200} >
           {content.length > 300 ? content.slice(0, 100) + " Read More..." : content}
         </Typography>
+          <Typography>{authorname}</Typography>
       </CardContent>
   
 
@@ -53,7 +50,7 @@ const Cards = ({ title, content, onView, onEdit,blogType }) => {
 
       <Button variant="contained"onClick={onEdit} color="#938f72ff">Edit</Button>
       )}
-
+  
     
        
        

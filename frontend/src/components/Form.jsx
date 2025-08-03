@@ -18,7 +18,7 @@ const Form = ({ initD = {title:"",content:""}, onSubmit, formType }) => {
   };
 
     const handleSubmit = (e) => {
-        e.prevenDefault();
+        e.preventDefault();
         onSubmit(formData);
     };
     return (
@@ -56,7 +56,7 @@ const Form = ({ initD = {title:"",content:""}, onSubmit, formType }) => {
                         label="Title"
                         type="text"
                        id="outlined-multiline-static"
-                       
+                       name="title"
                         value={formData.title}
                         onChange={handleChange
                         }
@@ -66,7 +66,7 @@ const Form = ({ initD = {title:"",content:""}, onSubmit, formType }) => {
                         type="text"
                         id="outlined-multiline-static"
                         label="Multiline Placeholder"
-                        
+                        name="content"
 
                          
                         value={formData.content}

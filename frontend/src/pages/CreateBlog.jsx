@@ -10,18 +10,16 @@ import BASE_URl from '../config'
 const CreateBlog = () => {
   const navigate = useNavigate();
 
-  const blogerId=async()=>{
-    try{
-      await axios.get(`${BASE_URl}/api/login/id`,{withCredentials:true})
-    }
-    catch(err){
-      console.log("Failed to get userid",err);
-    }
-  }
+ 
 
   const handleCreate = async (formData) => {
     try {
-      await axios.post(`${BASE_URl}/api/blogs`, { ...formData, blogerId });
+      const token=localStorage.getItem('token');
+      await axios.post(`${BASE_URl}/api/blogs`,formData,{
+        headers:{
+          'Authorization':token || ''
+        }
+      });
       navigate('/');
 
     }

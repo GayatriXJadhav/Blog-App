@@ -118,7 +118,7 @@ const Sidebar = () => {
                   anchorEl={anchorEl}
                   open={open}
                   onClose={handleClose}
-                // TransitionComponent={Fade}
+                
                 >
                   <MenuItem onClick={()=>{navigate('/profile/');
                     handleClose();

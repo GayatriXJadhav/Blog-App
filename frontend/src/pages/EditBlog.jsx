@@ -17,7 +17,7 @@ const EditBlog = () => {
                 try {
                     const token=localStorage.getItem('token');
                     const res = await axios.get(`${BASE_URl}/api/blogs/${id}`,{
-                        'Authorization':token
+                        'Authorization':token || ''
                     });
                     setInitD(
                         {

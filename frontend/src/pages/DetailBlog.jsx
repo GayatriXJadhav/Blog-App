@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Paper, Typography } from '@mui/material'
 import BASE_URl from '../config'
 const DetailBlog = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
+    
   const location=useLocation();
   const passedBlog=location.state;
   const [blog, setBlog] = useState(passedBlog);
