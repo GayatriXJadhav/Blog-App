@@ -20,7 +20,7 @@ const Signup = () => {
       const res = await axios.post(`${BASE_URl}/api/auth/register`, {
         name, email, password
       });
-      if (res.status === 200) {
+      if (res.status === 201) {
         setUser({name:res.data.name,email:res.data.email})
        localStorage.setItem('token',res.data.token);
         Navigate('/');

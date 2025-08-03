@@ -18,7 +18,7 @@ const Login = () => {
       const res = await axios.post(`${BASE_URl}/api/auth/login`, {
         email,
         password,
-      }, { withCredentials: true });
+      });
       console.log(res)
       if (res.status===200) {
         setUser({name:res.data.name,email:res.data.email})
