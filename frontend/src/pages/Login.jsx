@@ -17,11 +17,13 @@ const Login = () => {
       const res = await axios.post(`${BASE_URl}/api/auth/login`, {
         email,
         password,
-      });
-      if (res.status === 200) {
+      }, { withCredentials: true });
+      console.log(res)
+      if (res.status===200) {
        
         navigate('/')
       }
+
      
 
     } catch (err) {
@@ -54,9 +56,9 @@ const Login = () => {
         <Button variant="contained" sx={{ m: 1 }} onClick={handleClick} >
 
           Login
-
-
         </Button>
+
+
        <Link onClick={()=>navigate('/signup')}  sx={{ cursor: "pointer" }}>New to the Account</Link>
       </Paper>
     </Box>

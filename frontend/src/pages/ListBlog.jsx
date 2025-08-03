@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
-import { Box } from '@mui/material'
+import { Box, Pagination } from '@mui/material'
 import Cards from '../components/Cards'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -23,7 +23,7 @@ const ListBlog = () => {
 useEffect(() => {
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get(`${BASE_URl}/api/blogs `); // no ID, get all blogs
+      const res = await axios.get(`${BASE_URl}/api/blogs `, { withCredentials: true }); // no ID, get all blogs
       if (res.data?.content?.length) {
       setBlogs(res.data.content);
      }
@@ -36,6 +36,10 @@ useEffect(() => {
   };
   fetchBlogs();
 }, []);
+
+// const pages=()=>{
+
+// }
    console.log(blogs);
 if(Loading){
   return <div>Loading...</div>
@@ -60,6 +64,7 @@ if(Loading){
       // onEdit={ ()=>navigate(`/edit/${blog.id}`, {state:blog})}
         />
     ))}
+    <Pagination count={10} variant="outlined" color="secondary" />
    </Box>
  </Layout>
    
