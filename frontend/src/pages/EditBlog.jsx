@@ -15,7 +15,10 @@ const EditBlog = () => {
 
             const fetchblog = async () => {
                 try {
-                    const res = await axios.get(`${BASE_URl}/api/blogs/${id}`);
+                    const token=localStorage.getItem('token');
+                    const res = await axios.get(`${BASE_URl}/api/blogs/${id}`,{
+                        'Authorization':token
+                    });
                     setInitD(
                         {
                             title: res.title,

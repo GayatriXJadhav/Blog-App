@@ -8,67 +8,118 @@ import BASE_URl from '../config'
 import { useAuth } from '../context/AuthContext'
 
 const ListBlog = () => {
-    const navigate=useNavigate();
+  const navigate = useNavigate();
 
- const {user:currentUser}=useAuth();
- const [blogs, setBlogs] = useState([
-   {
-    id: 'dummy-123',
-    title: 'Dummy Blog Title',
-    content: 'This is a dummy blog used for testing or placeholder purposes.',
-  }
- ]);
- const [Loading,setLoading]=useState(true);
+  const { user: currentUser } = useAuth();
+  const [blogs, setBlogs] = useState([
+    {
+      id: 'dummy-123',
+      title: 'Dummy Blog Title',
+      content: 'This is a dummy blog used for testing or placeholder purposes.',
+    }
+  ]);
+  const [loading, setLoading] = useState(true);
+  const [pageInfo, setPageInfo] = useState({
+    currentPage: 0,
+    totalPages: 0,
+    totalEl: 0,
+    pageSize: 5
+  })
 
-useEffect(() => {
-  const fetchBlogs = async () => {
+  const fetchBlogs = async (page = 0, size = 5) => {
     try {
-      const res = await axios.get(`${BASE_URl}/api/blogs `, { withCredentials: true }); // no ID, get all blogs
-      if (res.data?.content?.length) {
-      setBlogs(res.data.content);
-     }
+      setLoading(true);
+      const res = await axios.get(`${BASE_URl}/api/blogs`
+        , {
+          params: {
+
+            page,
+            size,
+            sort: 'title,asc'
+          }
+        }); // no ID, get all blogs
+      console.log(res);
+      if (res.data) {
+
+        setBlogs(res.data.content || []);
+        setPageInfo({
+          currentPage: res.data.number,
+          totalPages: res.data.totalPages,
+          totalEl: res.data.totalElements,
+          pageSize: res.data.size
+        })
+      }
 
     } catch (err) {
       console.log('Failed to fetch blogs', err);
     }
+    finally {
 
-    setLoading(false);
+      setLoading(false);
+    }
   };
-  fetchBlogs();
-}, []);
 
-// const pages=()=>{
+  useEffect(() => {
 
-// }
-   console.log(blogs);
-if(Loading){
-  return <div>Loading...</div>
-}
+    fetchBlogs();
+  }, []);
+
+  const pageChange = (event, newPage) => {
+    fetchBlogs(newPage - 1);
+  }
+  console.log(blogs);
+
+  if (loading && blogs.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    
- <Layout currentUser={currentUser}>
-   <Box display="flex" flexWrap="wrap" gap={2}>
-    {blogs.map((blog)=>(
-        <Cards blogType="List"
-        key={blog.id}
-        title={blog.title}
-        content={blog.content}
-        onView={()=>navigate(`/view/${blog.id}`,{state:blog
-          
-        })}
-      //   onEdit={
-      //     currentUser && blog.authorId===currentUser.id?
-      //  ()=>navigate(`/edit/${blog.id}`, {state:blog}) : undefined}
-      //   showEdit={currentUser && blog.authorId===currentUser.id}
-      // onEdit={ ()=>navigate(`/edit/${blog.id}`, {state:blog})}
-        />
-    ))}
-    <Pagination count={10} variant="outlined" color="secondary" />
-   </Box>
- </Layout>
-   
+
+    <Layout currentUser={currentUser}>
+      <Box display="flex" flexWrap="wrap" gap={2}>
+        {blogs.map((blog) => (
+          <Cards blogType="List"
+            key={blog.id}
+            title={blog.title}
+            content={blog.content}
+            onView={() => navigate(`/view/${blog.id}`, {
+              state: blog
+
+            })}
+          //   
+          />
+        ))}
+        {pageInfo.totalPages > 0 &&
+          <Box 
+         
+                  position= 'fixed'
+                  bottom={0}
+                  left={0}
+                  width= "100%"
+                  display= "flex"
+                  justifyContent= "center"
+                  bgcolor= "white"
+                  py= {2}            
+                  zIndex= {1000}  
+                 
+          >
+            <Pagination count={pageInfo.totalPages}
+              left={50}
+              page={pageInfo.currentPage + 1}
+              onChange={pageChange}
+              variant="outlined" color="secondary"
+             
+               />
+          </Box>
+        }
+      </Box>
+      
+    </Layout>
+
   )
 }
 export default ListBlog
-// Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt sapiente in neque, repellat aspernatur, totam reiciendis autem beatae odio quibusdam nobis amet hic consequuntur voluptatum, architecto omnis perferendis quos culpa alias. Iusto, ipsum expedita et at ea nulla, itaque perspiciatis maiores rerum commodi magnam mollitia ipsa aliquid animi temporibus non vel distinctio quia aperiam quo a! Fugit unde deserunt aperiam vero hic inventore illum in alias consequatur odio optio cum ullam reprehenderit voluptate consectetur aspernatur, saepe provident sunt quas ex ipsam culpa ea! Doloremque dolor amet maiores provident? Odit dolorum id sed soluta animi molestias eligendi explicabo molestiae voluptate voluptatem?
+
+ // display="flex"
+          //  justifyContent="center" 
+          //   mt={4}

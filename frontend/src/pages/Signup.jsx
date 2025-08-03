@@ -3,10 +3,12 @@ import { Box, Button, TextField, Typography, Paper, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URl from "../config";
+import { useAuth } from "../context/AuthContext";
 const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {setUser}=useAuth();
   const Navigate = useNavigate();
 
 
@@ -19,7 +21,8 @@ const Signup = () => {
         name, email, password
       });
       if (res.status === 200) {
-
+        setUser({name:res.data.name,email:res.data.email})
+       localStorage.setItem('token',res.data.token);
         Navigate('/');
       }
     } catch (err) {

@@ -8,7 +8,14 @@ export const AuthProvider=({children})=>{
   useEffect(()=>{
     ( async () => {
         try {
-          const res = await axios.get(`${BASE_URl}/api/auth`, { withCredentials: true });
+          const token=localStorage.getItem('token');
+          const res = await axios.get(`${BASE_URl}/api/auth`
+            , {
+              headers:{
+
+                'Authorization':token
+              }
+            });
           setUser(res.data);
         } catch (err) {
           console.error('Failed to fetch current user', err);
@@ -18,7 +25,8 @@ export const AuthProvider=({children})=>{
       
      )()
     
-  })
+  },[]
+)
   return (
     <AuthContext.Provider value={{user,setUser}}>
       {children}

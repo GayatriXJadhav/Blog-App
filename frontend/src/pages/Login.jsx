@@ -4,11 +4,12 @@ import {  useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
 import BASE_URl from '../config';
+import { useAuth } from '../context/AuthContext';
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const {setUser}=useAuth();
 
 
   const handleClick = async () => {
@@ -20,7 +21,8 @@ const Login = () => {
       }, { withCredentials: true });
       console.log(res)
       if (res.status===200) {
-       
+        setUser({name:res.data.name,email:res.data.email})
+        localStorage.setItem('token',res.data.token);
         navigate('/')
       }
 

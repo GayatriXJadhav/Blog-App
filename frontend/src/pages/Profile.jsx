@@ -4,47 +4,58 @@ import { Box, Paper, TextField, Typography, Grid } from "@mui/material";
 
 import Cards from "../components/Cards";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
     const navigate=useNavigate();
-      const profile = {
-    name: "Gayatri Jadhav",
-    email: "gayatri@gmail.com",
-    blogs: [
-      {
-        id: 1,
-        title: "Understanding React Hooks",
-        description: "A beginner-friendly guide to useState and useEffect.",
+    const {user}=useAuth();
+//       const profile = {
+//     name: "Gayatri Jadhav",
+//     email: "gayatri@gmail.com",
+//     blogs: [
+//       {
+//         id: 1,
+//         title: "Understanding React Hooks",
+//         description: "A beginner-friendly guide to useState and useEffect.",
        
-      },
-      {
-        id: 2,
-        title: "Angular vs React: Which to Choose?",
-        description: "Comparing two most popular frontend frameworks.",
-      }, 
-      {
-        id: 3,
-        title: "My Internship Experience at Roundglass",
-        description: "What I learned working on a real-world CMS project.",
+//       },
+//       {
+//         id: 2,
+//         title: "Angular vs React: Which to Choose?",
+//         description: "Comparing two most popular frontend frameworks.",
+//       }, 
+//       {
+//         id: 3,
+//         title: "My Internship Experience at Roundglass",
+//         description: "What I learned working on a real-world CMS project.",
        
-      },
-    ],
-  };
-//   const [profile, setProfile] = useState(null);
-
-//   const getProfileData = async () => {
-//     try {
-//       const res = await fetch("/api/user/profile");
-//       const data = await res.json();
-//       setProfile(data);
-//     } catch (error) {
-//       console.log("Error fetching profile", error);
-//     }
+//       },
+//     ],
 //   };
+  const [blogs, setBlogs] = useState([]);
 
-//   useEffect(() => {
-//     getProfileData();
-//   }, []);
+  const getBlogs = async () => {
+    try {
+        const token=localStorage.getItem('token');
+      const res = await axios.get("/api/blogs/user",
+        {
+            headers:{
+                'Authorization':token
+            }
+        }
+      );
+      
+      setBlogs(res.data);
+    } catch (error) {
+      console.log("Error fetching profile", error);
+    }
+  };
+ console.log(blogs);
+  useEffect(() => {
+    getBlogs();
+  }, []);
 
   return (
     <Layout>
@@ -61,12 +72,12 @@ const Profile = () => {
         </Typography>
 
         {/* Profile Details */}
-        {profile && (
+        {user && (
           <Box sx={{ mb: 4 }}>
             <TextField
               fullWidth
               label="Name"
-              value={profile.name}
+              value={user.name}
               InputProps={{ readOnly: true }}
               variant="filled"
               sx={{ mb: 2 }}
@@ -74,7 +85,7 @@ const Profile = () => {
             <TextField
               fullWidth
               label="Email"
-              value={profile.email}
+              value={user.email}
               InputProps={{ readOnly: true }}
               variant="filled"
             />
@@ -86,12 +97,12 @@ const Profile = () => {
           Blogs Written
         </Typography>
         <Grid container spacing={2}>
-          {profile?.blogs?.length > 0 ? (
-            profile.blogs.map((blog) => (
+          {blogs?.length > 0 ? (
+              blogs.map((blog) => (
               <Grid item xs={12} sm={6} md={4} key={blog.id}>
                 <Cards
                   title={blog.title}
-                  content={blog.description}
+                  content={blog.content}
               onView={()=>navigate(`/view/${blog.id}`,{state:blog
           
         })}
