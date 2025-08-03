@@ -31,15 +31,6 @@
 | Delete Blog         | ❌             | ❌             | ✅          |
 
 ![Pipeline](./images/Pipeline.png)
-### Profile Management
-```mermaid
-graph TD
-    A[User Menu] --> B[Profile]
-    A --> C[Logout]
-    B --> D[My Blogs]
-    D --> E[Edit Blog]
-    D --> F[Delete Blog]
-![Landing Page Preview](./images/LandingPage.png) 
-![After_Login_Preview](./images/)
+
 
 
