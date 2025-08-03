@@ -1,5 +1,5 @@
 // src/components/Sidebar.jsx
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Drawer,
   Toolbar,
@@ -14,15 +14,17 @@ import {
   // Fade,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 // import Login from "../pages/Login";
 // import Signup from "../pages/Signup";
 
 const drawerWidth = 240;
 
-const Sidebar = ({currentUser}) => {
+const Sidebar = () => {
+  const { user: currentUser,logout} = useAuth();  
   const navigate = useNavigate();
- 
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -32,15 +34,34 @@ const Sidebar = ({currentUser}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogout=()=>{
+    logout();
+    handleClose();
+    navigate('/');
+  };
   const navItems = [
     { name: 'Listings', path: '/' },
-    { name: 'Login', path: '/Login' },
-    { name: 'Signup', path: '/Signup' },
+    { name: 'Login', path: '/login' },
+    { name: 'Signup', path: '/signup' },
     { name: 'CreateBlog', path: '/createBlog' }
   ];
-  const handleNavigation = (path) => {
-    navigate(path);
+  const handleNavigation = (item) => {
+    if(!currentUser && item.name==='CreateBlog'){
+     navigate('/login');
+     return;
+    }
+    navigate(item.path);
   }
+  const filteredNavItems = navItems.filter((item) => {
+    // Hide Login/Signup when logged in
+    if (currentUser && (item.name === 'Login' || item.name === 'Signup')) {
+      return false;
+    }
+    return true;
+  });
+
+
+ 
 
   return (
     <>
@@ -59,36 +80,17 @@ const Sidebar = ({currentUser}) => {
         <Toolbar />
         <Box sx={{
           overflow: "auto",
-          // display:"flex",
-          // flexDirection:"column",
-          // alignItems:"left"
+          
         }}>
           <List>
-
-
-            {navItems
-              .filter((item) => {
-                if (currentUser && (item.name === 'Login' || item.name === 'Signup')) {
-                  return false;
-                }
-                if(!currentUser && (item.name==='CreateBlog')){
-                  return false;
-                }
-                return true;
-              })
-              .map((text) => (
-                <ListItem
-
-                  key={text} disablePadding>
-                  <ListItemButton
-                    key={text.name}
-                    onClick={() => handleNavigation(text.path)}>
-                    <ListItemText primary={text.name} />
+            {filteredNavItems.map((item) => (
+                <ListItem key={item.name} disablePadding>
+                  <ListItemButton onClick={() => handleNavigation(item)}>
+                    <ListItemText primary={item.name} />
                   </ListItemButton>
                 </ListItem>
               ))}
           </List>
-
           {
             currentUser && (
               <>
@@ -118,9 +120,11 @@ const Sidebar = ({currentUser}) => {
                   onClose={handleClose}
                 // TransitionComponent={Fade}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={()=>{navigate('/profile/');
+                    handleClose();
+                  }}>Profile</MenuItem>
+                 
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </>
             )
@@ -133,3 +137,6 @@ const Sidebar = ({currentUser}) => {
 };
 
 export default Sidebar;
+                    
+                   
+

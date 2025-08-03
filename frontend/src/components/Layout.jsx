@@ -25,7 +25,8 @@ const Layout = ({ children,currentUser}) => {
           p: 3,
           minHeight: "100vh",
           //   ml: `${drawerWidth}px`,#ff7b7b
-          bgcolor: '#cc9292ff'
+          bgcolor: '#cc9292ff',
+         
         }}
       >
         {/* Push content below the AppBar */}

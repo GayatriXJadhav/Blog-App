@@ -7,9 +7,13 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const Cards = ({ title, content, onView, onEdit }) => {
+const Cards = ({ title, content, onView, onEdit,blogType }) => {
  
-
+ const type=(blogType)=>{
+  if(blogType==='List'){
+    return false;
+  }
+ }
   return (
     <Card
       sx={{
@@ -45,8 +49,14 @@ const Cards = ({ title, content, onView, onEdit }) => {
         ml:2
       }}>
         <Button variant="contained"onClick={onView} color="#938f72ff">View</Button>
+      {blogType==='List'? null : (
 
-        <Button variant="contained"onClick={onEdit} color="#938f72ff">Edit</Button>
+      <Button variant="contained"onClick={onEdit} color="#938f72ff">Edit</Button>
+      )}
+
+    
+       
+       
       </CardActions>
     </Card>
   );

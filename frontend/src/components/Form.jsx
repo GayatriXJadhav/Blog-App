@@ -22,24 +22,24 @@ const Form = ({ initD = {title:"",content:""}, onSubmit, formType }) => {
         onSubmit(formData);
     };
     return (
-        <form onSubmit={handleSubmit}>
-            <Box
-                component="main"
-                sx={{
-                    WebkitAlignItems:"center"
-                
+          <Box
+    sx={{
+      height: '100vh',         // full screen height
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
 
-                }}
-            >
+
+        <form onSubmit={handleSubmit}>
+         
                 <Paper
                     sx={{
-                        margin:"10px",
-                        width:"50vw",
-                        height: "50vh",
-
-                        display: "flex",
-                        flexDirection: "column",
-                        p: 5,
+                         height: "auto",
+                            width: "800px",
+                            margin: "auto",
+                            padding: 4,
                     }}
                 >
                     <Typography
@@ -55,28 +55,35 @@ const Form = ({ initD = {title:"",content:""}, onSubmit, formType }) => {
                     <TextField
                         label="Title"
                         type="text"
+                       id="outlined-multiline-static"
+                       
                         value={formData.title}
                         onChange={handleChange
                         }
-                        sx={{ m: 1, width: "auto" }}
+                        sx={{ m: 1 }}
                     />
                     <TextField
                         type="text"
+                        id="outlined-multiline-static"
+                        label="Multiline Placeholder"
+                        
+
+                         
                         value={formData.content}
                         onChange={handleChange
                         }
                         fullWidth
-                        label="Multiline Placeholder"
                         multiline
-                        sx={{ m: 1, overflow: "auto", height: "auto" }}
+                        sx={{ m: 1, overflow: "auto" }}
                     />
                     <Button variant="contained" type="submit">
                         {" "}
                         {formType}
                     </Button>
                 </Paper>
-            </Box>
+           
         </form>
+          </Box>
     );
 };
 

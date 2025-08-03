@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { Box, Paper, TextField, Typography, Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext';
+import { Box, Paper, TextField, Typography, Button,Link } from '@mui/material'
+import {  useNavigate } from 'react-router-dom'
+
 import axios from 'axios';
 import BASE_URl from '../config';
 const Login = () => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  const { setuser } = useAuth();
+
+
 
   const handleClick = async () => {
     try {
@@ -19,8 +19,11 @@ const Login = () => {
         password,
       });
       if (res.status === 200) {
-        setuser(res.data.user);
-        Navigate('/ListBlog')
+       
+        navigate('/')
+      }
+      else{
+        navigate('/signup')
       }
 
     } catch (err) {
@@ -56,7 +59,7 @@ const Login = () => {
 
 
         </Button>
-
+       <Link onClick={()=>navigate('/signup')}  sx={{ cursor: "pointer" }}>New to the Account</Link>
       </Paper>
     </Box>
   )
