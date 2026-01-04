@@ -32,7 +32,7 @@ const DetailBlog = () => {
         }
     }, [id,passedBlog])
  
-    if (!blog) return <div>Loading...</div>;
+    // if (!blog) return <div>Loading...</div>;
     return (
         <Layout>
       <Box display="flex" justifyContent="center" mt={4}>
